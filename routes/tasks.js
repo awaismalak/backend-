@@ -50,4 +50,17 @@ router.delete("/:taskId", async (req, res) => {
   }
 });
 
+// update a task
+router.patch("/:taskId", async (req, res) => {
+  try {
+    const updateTask = await Task.updateOne(
+      { _id: req.params.taskId },
+      { $set: { taskTitle: req.body.taskTitle } }
+    );
+    res.json(updateTask);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 module.exports = router;
