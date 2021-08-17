@@ -1,4 +1,5 @@
 const express = require("express");
+const { remove } = require("../models/Task");
 const router = express.Router();
 const Task = require("../models/Task");
 // get all task
@@ -33,6 +34,17 @@ router.get("/:taskId", async (req, res) => {
   try {
     const task = await Task.findById(req.params.taskId);
     res.json(task);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+// delete tats from bd
+router.delete("/:taskId", async (req, res) => {
+  try {
+    const removedTask = await Task.remove({ _id: req.params.taskId });
+    console.log(removedTask);
+    res.json(removedTask);
   } catch (err) {
     res.json({ message: err });
   }
